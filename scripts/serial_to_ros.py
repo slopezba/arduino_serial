@@ -49,7 +49,7 @@ def main():
     rate = rospy.Rate(200)
 
     while not rospy.is_shutdown():
-        line = ser.readline().decode().strip()
+        line = ser.readline().decode('utf-8', errors='ignore').strip()
         if not line:
             rate.sleep()
             continue
