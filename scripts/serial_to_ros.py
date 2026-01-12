@@ -11,7 +11,7 @@ BAUD = 115200
 def main():
     rospy.init_node("arduino_serial_node")
 
-    pub = rospy.Publisher("/arduino/adc", Int32MultiArray, queue_size=10)
+    pub = rospy.Publisher("arduino/adc", Int32MultiArray, queue_size=10)
 
     ser = serial.Serial(PORT, BAUD, timeout=1)
 
@@ -41,8 +41,8 @@ def main():
         ser.write((json.dumps(cmd) + "\n").encode())
         return TriggerResponse(True, f"Period set to {period} ms")
 
-    rospy.Service("/set_output", SetBool, handle_output)
-    rospy.Service("/set_period", Trigger, handle_period)
+    rospy.Service("set_output", SetBool, handle_output)
+    rospy.Service("set_period", Trigger, handle_period)
 
     rospy.loginfo("Arduino serial node running")
 
