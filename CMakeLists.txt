@@ -9,8 +9,15 @@ project(arduino_serial)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   rospy
+  dynamic_reconfigure
+  roscpp
   std_msgs
   std_srvs
+  geometry_msgs
+)
+
+generate_dynamic_reconfigure_options(
+  cfg/ForceFilter.cfg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -103,6 +110,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
+  CATKIN_DEPENDS dynamic_reconfigure roscpp std_msgs geometry_msgs std_srvs
 #  INCLUDE_DIRS include
 #  LIBRARIES arduino_serial
 #  CATKIN_DEPENDS rospy std_msgs std_srvs
@@ -177,6 +185,14 @@ include_directories(
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
 # )
+
+add_executable(multi_force_filter
+  src/multi_force_filter.cpp
+)
+
+target_link_libraries(multi_force_filter
+  ${catkin_LIBRARIES}
+)
 
 ## Mark cpp header files for installation
 # install(DIRECTORY include/${PROJECT_NAME}/
